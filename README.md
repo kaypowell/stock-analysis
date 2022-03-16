@@ -1,1 +1,109 @@
-# stock-analysis
+# Stock Analysis with VBA
+
+## Overview
+Describe the data and primary code...
+The data for 12 green energy stocks in the years 2017 and 2018 are stored in an Excel workbook. Each stock is described by the stock  
+ticker, date, opening, closing and adjusted closing prices, highest and lowest prices, and daily trading volume. 
+  
+## Purpose
+A VBA script for the file was written to retrieve and clearly display the total daily volume and return on each stock, to indicate if  
+the stock is worth investing in. The purpose of this project was to refactor that code to better compile and print stock information,   
+without altering the results. The ouput and program execution times were factors used to compare the effiency of each code.  
+  
+# Results
+The images below show the results of the script. Many stocks experienced losses in 2018, except ENPH and RUN. These stocks were both in the  
+top quarter and had positive returns across both years.  
+![VBA_Challenge_2017](Resources/VBA_Challenge_2017.png)
+![VBA_Challenge_2018](Resources/VBA_Challenge_2018.png) 
+The runtimes for each year of both the original and refactored VBA code below:  
+*Original code*  
+![Original_2017](Resources/Original_2017.png)
+![Original_2018](Resources/Original_2018.png)
+*Refactored code*  
+![Green_Stock_2017](Resources/Green_Stock_2017.png)
+![Green_Stock_2018](Resources/Green_Stock_2018.png)
+  
+# Summary
+  
+## Advantages and Disadvantages of Refactoring
+The main benefit of refactoring is that it leads to higher-quality code, characterized by being efficent, clean, and well-organized. These  
+attributes lend themselves to improved design, faster performance, and simplifies readability and debugging. This also helps by making it  
+easier to maintain. However, refactoring can also introduce risks if the existing code has a large application of the code or is overly  
+complex and not well-understood. Trying to refactor code in this state may be too time consuming or damage its functionality.  
+  
+## Original vs. Refactored VBA code
+The section of the refactored code is included below for reference (some lines ommited for clarity).
+```
+'1a) Create a ticker Index  
+tickerIndex = 0  
+  
+'1b) Create three output arrays  
+Dim tickerVolumes(12) As Long  
+Dim tickerStartingPrices(12) As Single  
+Dim tickerEndingPrices(12) As Single  
+  
+'2a) Create a for loop to initialize the tickerVolumes to zero.  
+For t = 0 To 11  
+&nbsp;&nbsp;&nbsp;&nbsp;tickerVolumes(t) = 0  
+Next t  
+  
+'2b) Loop over all the rows in the spreadsheet.  
+For i = 2 To RowCount  
+  
+&nbsp;&nbsp;&nbsp;&nbsp;'3a) Increase volume for current ticker  
+&nbsp;&nbsp;&nbsp;&nbsp;If Cells(i, 1) = tickers(tickerIndex) Then  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tickerVolumes(tickerIndex) = tickerVolumes(tickerIndex) + Cells(i, 8).Value  
+&nbsp;&nbsp;&nbsp;&nbsp;End If  
+  
+&nbsp;&nbsp;&nbsp;&nbsp;'3b) Check if the current row is the first row with the selected tickerIndex.  
+&nbsp;&nbsp;&nbsp;&nbsp;If Cells(i - 1, 1).Value <> tickers(tickerIndex) Then  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Set starting price  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tickerStartingPrices(tickerIndex) = Cells(i, 6).Value  
+&nbsp;&nbsp;&nbsp;&nbsp;End If  
+  
+&nbsp;&nbsp;&nbsp;&nbsp;'3c) Check if the current row is the last row with the selected ticker  
+&nbsp;&nbsp;&nbsp;&nbsp;If Cells(i + 1, 1).Value <> tickers(tickerIndex) Then  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Set ending price  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tickerEndingPrices(tickerIndex) = Cells(i, 6).Value  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'3d Increase the tickerIndex.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tickerIndex = tickerIndex + 1  
+&nbsp;&nbsp;&nbsp;&nbsp;End If  
+  
+Next i  
+```
+```
+'Loop through tickers  
+For t = 0 To 11  
+  
+&nbsp;&nbsp;&nbsp;&nbsp;totalVolume = 0  
+  
+&nbsp;&nbsp;&nbsp;&nbsp;'Loop over rows  
+&nbsp;&nbsp;&nbsp;&nbsp;For i = 2 To rowEnd  
+  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Add to volume of current ticker  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If Cells(i, 1) = tickers(t) Then  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Increase total volume counter  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;totalVolume = totalVolume + Cells(i, 8).Value  
+  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Start current ticker  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If Cells(i - 1, 1).Value <> tickers(t) Then  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Set starting price  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;startPrice = Cells(i, 6).Value  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'End current ticker  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If Cells(i + 1, 1).Value <> tickers(t) Then  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Set ending price  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endPrice = Cells(i, 6).Value  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If  
+  
+&nbsp;&nbsp;&nbsp;&nbsp;Next i  
+Next t
+```
+The refactored code succeeded in increasing overall efficiency, shown in the comparative execution times. The original took ~0.50 seconds   
+to run while the refactored code was 80% faster at ~0.10 seconds. While both codes loop through each row, the final, refactored code runs  
+faster by transforming analogous variables into the 'tickerVolumes', 'tickerStartingPrices', and 'tickerEndingPrices' arrays that can store  
+the corresponding values for each ticker in a single loop. The original code loops through each row for every loop ticker, while the 
+refactored code loops through each ticker separately and through each row once, leading to one less order of magnitude difference in actions  
+required by the refactored code than the original. While both codes produce the same result, removing the nested for loop lowered the  
+execution time and made the code easier to understand.
