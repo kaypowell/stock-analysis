@@ -6,25 +6,25 @@ described by the stock ticker, date, opening, closing and adjusted closing price
 daily trading volume.  
   
 ## Purpose
-A VBA script for the file was written to retrieve and clearly display the total daily volume and return on each  
-stock, to indicate if the stock is worth investing in. The purpose of this project was to refactor that code to  
+To indicate if the stock is worth investing in, a VBA script for the file was written to retrieve and clearly  
+display the total daily volume and return on each stock. The purpose of this project was to refactor that code to  
 better compile and print stock information, without altering the results. The ouput and program execution times were  
 factors used to compare the effiency of each code.  
   
 # Results
-The images below show the results of the script. Many stocks experienced losses in 2018, except ENPH and RUN. These  
-stocks were both in the top quarter and had positive returns in both years.  
+The images below show the results of the script. Many stocks experienced losses in 2018, except ENPH and RUN.  
+These stocks were both in the top quarter and had positive returns in both years.  
 ![Green_Stock_2017](Resources/Green_Stock_2017.png)
 ![Green_Stock_2018](Resources/Green_Stock_2018.png)
   
 The runtimes for each year of both the original and refactored VBA code below:  
   
 *Original code*  
-![VBA_Challenge_2017](Resources/VBA_Challenge_2017.png)
-![VBA_Challenge_2018](Resources/VBA_Challenge_2018.png)
-*Refactored code*  
 ![Original_2017](Resources/Original_2017.png)
 ![Original_2018](Resources/Original_2018.png)
+*Refactored code*  
+![VBA_Challenge_2017](Resources/VBA_Challenge_2017.png)
+![VBA_Challenge_2018](Resources/VBA_Challenge_2018.png)
   
 # Summary
   
@@ -37,7 +37,7 @@ code in this state may be too time consuming or damage its functionality.
   
 ## Original vs. Refactored VBA code
 Sections of each code are included below for reference (some lines ommited for clarity).  
-*Original*
+***Original***
 ```
 'Loop through tickers  
 For t = 0 To 11  
@@ -67,7 +67,7 @@ For t = 0 To 11
     Next i  
 Next t
 ```
-*Refactored*
+***Refactored***
 ```
 '1a) Create a ticker Index  
 tickerIndex = 0  
