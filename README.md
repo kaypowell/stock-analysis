@@ -79,7 +79,7 @@ Dim tickerEndingPrices(12) As Single
   
 '2a) Create a for loop to initialize the tickerVolumes to zero.  
 For t = 0 To 11  
-&nbsp;&nbsp;&nbsp;&nbsp;tickerVolumes(t) = 0  
+    tickerVolumes(t) = 0  
 Next t  
   
 '2b) Loop over all the rows in the spreadsheet.  
